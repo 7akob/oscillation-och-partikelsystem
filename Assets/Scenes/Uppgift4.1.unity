@@ -1734,11 +1734,11 @@ Transform:
   m_GameObject: {fileID: 139527134}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1572, y: -0.011, z: 0.0016}
-  m_LocalScale: {x: 0.01, y: 0.010000003, z: 0.010000003}
+  m_LocalPosition: {x: -1.9799995, y: 6.57, z: 0.333295}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 354030657}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &139527136
 SphereCollider:
@@ -1827,6 +1827,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: 0.999
+  elevatorSpeed: 2
+  minY: 1
+  maxY: 11
 --- !u!120 &139527140
 LineRenderer:
   serializedVersion: 2
@@ -1941,7 +1944,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139527134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d108c2260a8ecb45befdee7d28416dc, type: 3}
   m_Name: 
@@ -1949,6 +1952,7 @@ MonoBehaviour:
   speed: 1
   maxHeight: 0.08
   minHeight: -0.03
+  movingUp: 1
 --- !u!1001 &184074057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3130,7 +3134,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   RotSpeed: 10
-  Rot2Speed: 2
 --- !u!1001 &363291728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6039,10 +6042,6 @@ PrefabInstance:
         type: 3}
       insertIndex: 5
       addedObject: {fileID: 1603292903}
-    - targetCorrespondingSourceObject: {fileID: 4306582432695062742, guid: 12e4551279a46ea409e5d842a6626e9a,
-        type: 3}
-      insertIndex: 7
-      addedObject: {fileID: 139527135}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4306582432695062743, guid: 12e4551279a46ea409e5d842a6626e9a,
         type: 3}
@@ -12688,4 +12687,5 @@ SceneRoots:
   - {fileID: 315136621}
   - {fileID: 331031347}
   - {fileID: 807342092}
+  - {fileID: 139527135}
   - {fileID: 2079483091}

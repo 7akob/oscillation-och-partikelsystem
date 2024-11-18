@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 289688485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.1, z: -34.55}
+  m_LocalPosition: {x: 4.33, y: 2.76, z: -23.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 1282088446}
   - component: {fileID: 1282088445}
   - component: {fileID: 1282088444}
+  - component: {fileID: 1282088449}
   m_Layer: 0
   m_Name: Plane (1)
   m_TagString: Untagged
@@ -738,6 +739,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7350b6f68cf528c4fac5310ef1652f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mass: 1
+  K: 10
+  Damping: 0.99
 --- !u!64 &1282088445
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -828,6 +832,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1282088449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282088443}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f012fe1d0b8e940b37ec8c7248dc89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elasticity: 50
+  damping: 0.99
 --- !u!1 &1853030822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,6 +1189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elasticity: 5
+  damping: 0.99
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

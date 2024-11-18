@@ -8,6 +8,8 @@ public class Elastic2 : MonoBehaviour
     public float elasticity = 5f;
     Vector3[] velocities;
 
+    public float damping = 0.99f;
+
     int[] cornerIndices = {0, 9, 90, 99};
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,16 +23,17 @@ public class Elastic2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(var i = 0; i < vertices.Length; i++)
+        for(int i = 0; i < vertices.Length; i++)
         {
-            if(i == 0 || i == 9 || i ==90 || i == 99) continue;
+            if(System.Array.Exists(cornerIndices, index => index == i)) 
+            continue;
 
             Vector3 elasticForce = (originalVertices[i] - vertices[i]) * elasticity;
             velocities[i] += elasticForce * Time.deltaTime;
 
             vertices[i] += velocities[i] * Time.deltaTime;
 
-            velocities[i] *= 0.99f;
+            velocities[i] *= damping;
 
         }
 
