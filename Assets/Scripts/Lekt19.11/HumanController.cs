@@ -3,12 +3,13 @@ using UnityEngine;
 public class HumanController : MonoBehaviour
 {
 
+    Animator Anim;
     public float Speed;
     public float RotationSpeed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -16,7 +17,12 @@ public class HumanController : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.UpArrow))
         {
+            Anim.SetBool("Walking", true);
             transform.Translate(0, 0, Speed * Time.deltaTime);
+        }
+        else
+        {
+            Anim.SetBool("Walking", false);
         }
         if(Input.GetKey(KeyCode.LeftArrow))
         {
