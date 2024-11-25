@@ -1,60 +1,66 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Trampoline3 : MonoBehaviour
 {
     Mesh mesh;
-
-    public float Mass;
-    public float SpringConstant;
-    public float Damping;
-    
-    float G = -9.82f;
-    float Y0;
-
     Vector3[] vertices;
-    Vector3[] originalVertices;
+    Vector3[] initialVertices; // Store initial positions
+    Vector3[] velocities;      // Per-vertex velocities
 
-    Vector3 Velocity;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float Mass = 1f;
+    public float K = 10f; // Spring constant
+    public float Damping = 0.99f;
+    private float g = -9.82f; // Gravity
+
     void Start()
     {
         mesh = GetComponent<MeshFilter>().mesh;
-        originalVertices = mesh.vertices;
-        vertices = (Vector3[])originalVertices.Clone();
-
-        Y0 = transform.position.y;
+        vertices = mesh.vertices;
+        initialVertices = mesh.vertices.Clone() as Vector3[];
+        velocities = new Vector3[vertices.Length];
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        ApplyForces();
-        mesh.vertices = vertices;
-        mesh.RecalculateNormals();
+        ApplySpringForce();
+        DeformMesh();
     }
 
-    void ApplyForces()
+    void ApplySpringForce()
     {
-        Vector3 gravityForce = new Vector3(0, Mass * G, 0);
         for (int i = 0; i < vertices.Length; i++)
         {
-            float DeltaY = Y0 - vertices[i].y;
-            float springForce = DeltaY * SpringConstant;
+            // Calculate displacement from initial position
+            Vector3 displacement = initialVertices[i] - vertices[i];
 
-            float totalForce = springForce + gravityForce.y;
+            // Hooke's law: F = -kx
+            Vector3 springForce = displacement * K;
 
-            float acceleration = totalForce / Mass * Time.deltaTime;
+            // Add gravity force
+            Vector3 gravityForce = new Vector3(0, Mass * g, 0);
 
-            Velocity.y += acceleration;
+            // Total force
+            Vector3 totalForce = springForce + gravityForce;
 
-            Velocity *= Damping;
+            // Acceleration: a = F/m
+            Vector3 acceleration = totalForce / Mass;
 
-            vertices[i] += Velocity * Time.deltaTime;
-      
+            // Update velocity
+            velocities[i] += acceleration * Time.deltaTime;
+
+            // Apply damping
+            velocities[i] *= Damping;
+
+            // Update vertex position
+            vertices[i] += velocities[i] * Time.deltaTime;
         }
-        transform.Translate(Velocity * Time.deltaTime);
+    }
 
+    void DeformMesh()
+    {
+        mesh.vertices = vertices;
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals(); // Recalculate normals for proper shading
     }
 }
+

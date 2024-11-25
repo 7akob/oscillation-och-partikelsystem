@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Elastic2 : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Elastic2 : MonoBehaviour
 
     public float damping = 0.99f;
 
-    int[] cornerIndices = {0, 9, 90, 99};
+    HashSet<int> cornerIndices = new HashSet<int>{0, 9, 90, 99};
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,11 +22,11 @@ public class Elastic2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         for(int i = 0; i < vertices.Length; i++)
         {
-            if(System.Array.Exists(cornerIndices, index => index == i)) 
+            if(cornerIndices.Contains(i)) 
             continue;
 
             Vector3 elasticForce = (originalVertices[i] - vertices[i]) * elasticity;
