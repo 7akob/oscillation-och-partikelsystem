@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -9.8
-  springStrength: 10
+  springStrength: 100
   damping: 0.99
   timeStep: 0.02
 --- !u!1660057539 &9223372036854775807
