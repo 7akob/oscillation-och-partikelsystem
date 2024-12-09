@@ -1,6 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public class Vertex
+{
+    public int MeshIndex;
+    public Vector3 Position;
+    public Vector3 Velocity;
+    public int leftIndex, rightIndex, topIndex, bottomIndex;
+
+    public Vertex(int m, Vector3 p)
+    {
+        MeshIndex = m;
+        Position = p;
+        Velocity = Vector3.zero;
+
+        leftIndex = MeshIndex - 1;
+        rightIndex = MeshIndex + 1;
+        topIndex = MeshIndex - 11;
+        bottomIndex = MeshIndex + 11;
+    }
+}
+
 public class Trampoline3 : MonoBehaviour
 {
     public float gravity = -9.8f;
@@ -12,7 +32,9 @@ public class Trampoline3 : MonoBehaviour
     private Vector3[] originalVertices;
     private Vector3[] modifiedVertices;
     private Vector3[] velocities;
-    private HashSet<int> cornerIndices;
+
+
+    public Vertex[] VertexPoints;
 
     void Start()
     {
@@ -22,50 +44,57 @@ public class Trampoline3 : MonoBehaviour
         modifiedVertices = (Vector3[])originalVertices.Clone();
         velocities = new Vector3[originalVertices.Length];
 
-        cornerIndices = new HashSet<int>(GetCornerIndices(originalVertices));
+        VertexPoints = new Vertex[81];
+
+
+
+        InitiateVertexPoints();
     }
 
     void Update()
     {
-        for (int i = 0; i < modifiedVertices.Length; i++)
+        for (int i = 0; i < VertexPoints.Length; i++)
         {
-            if (!cornerIndices.Contains(i)) 
-            {
-                Vector3 gravityForce = new Vector3(0, gravity, 0);
+            Vertex vertex = VertexPoints[i];
+            Vector3 totalForce = new Vector3(0, gravity, 0);
 
-                Vector3 springForce = (originalVertices[i] - modifiedVertices[i]) * springStrength;
+            AddSpringForce(vertex, vertex.leftIndex, ref totalForce);
+            AddSpringForce(vertex, vertex.rightIndex, ref totalForce);
+            AddSpringForce(vertex, vertex.topIndex, ref totalForce);
+            AddSpringForce(vertex, vertex.bottomIndex, ref totalForce);
 
-                Vector3 totalForce = gravityForce + springForce;
+            vertex.Velocity += totalForce * timeStep;
+            vertex.Velocity *= damping;
+            vertex.Position += vertex.Velocity * timeStep;
 
-                velocities[i] += totalForce * timeStep;
-                velocities[i] *= damping;
-
-                modifiedVertices[i] += velocities[i] * timeStep;
-            }
+            modifiedVertices[vertex.MeshIndex] = vertex.Position;
         }
 
         mesh.vertices = modifiedVertices;
         mesh.RecalculateNormals();
     }
 
-    private int[] GetCornerIndices(Vector3[] vertices)
+    void AddSpringForce(Vertex vertex, int neighborIndex, ref Vector3 totalForce)
     {
-        float minX = Mathf.Min(vertices[0].x, vertices[vertices.Length - 1].x);
-        float maxX = Mathf.Max(vertices[0].x, vertices[vertices.Length - 1].x);
-        float minZ = Mathf.Min(vertices[0].z, vertices[vertices.Length - 1].z);
-        float maxZ = Mathf.Max(vertices[0].z, vertices[vertices.Length - 1].z);
+        if (neighborIndex < 0 || neighborIndex >= originalVertices.Length) return;
 
-        List<int> indices = new List<int>();
+        Vector3 neighborPos = modifiedVertices[neighborIndex];
+        Vector3 direction = neighborPos - vertex.Position;
+        float currentDistance = direction.magnitude;
+        float restDistance = (originalVertices[vertex.MeshIndex] - originalVertices[neighborIndex]).magnitude;
 
-        for (int i = 0; i < vertices.Length; i++)
+        totalForce += springStrength * (currentDistance - restDistance) * direction.normalized;
+    }
+
+    void InitiateVertexPoints()
+    {
+        for (int i = 0, j = 0; i < originalVertices.Length; i++)
         {
-            if ((vertices[i].x == minX || vertices[i].x == maxX) &&
-                (vertices[i].z == minZ || vertices[i].z == maxZ))
-            {
-                indices.Add(i);
-            }
-        }
+            if (i % 11 == 0 || i % 11 == 10 || i < 11 || i >= originalVertices.Length - 11)
+                continue;
 
-        return indices.ToArray();
+            VertexPoints[j] = new Vertex(i, originalVertices[i]);
+            j++;
+        }
     }
 }
