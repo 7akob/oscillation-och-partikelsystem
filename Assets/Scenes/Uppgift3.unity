@@ -389,8 +389,6 @@ GameObject:
   - component: {fileID: 1282088447}
   - component: {fileID: 1282088446}
   - component: {fileID: 1282088445}
-  - component: {fileID: 1282088444}
-  - component: {fileID: 1282088449}
   - component: {fileID: 1282088450}
   m_Layer: 0
   m_Name: Plane (1)
@@ -399,21 +397,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1282088444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282088443}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7350b6f68cf528c4fac5310ef1652f46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Mass: 1
-  K: 10
-  Damping: 0.99
 --- !u!64 &1282088445
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -504,20 +487,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1282088449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282088443}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92f012fe1d0b8e940b37ec8c7248dc89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elasticity: 50
-  damping: 0.99
 --- !u!114 &1282088450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -9.8
-  springStrength: 100
+  springStrength: 20
   damping: 0.99
   timeStep: 0.02
 --- !u!1660057539 &9223372036854775807
