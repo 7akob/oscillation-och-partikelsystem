@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 public class Trampoline3 : MonoBehaviour
 {
-    public float gravity = -9.8f; 
-    public float springStrength = 5.0f; 
-    public float damping = 0.95f; 
-    public float timeStep = 0.02f; 
+    public float gravity = -9.8f;
+    public float springStrength = 5.0f;
+    public float damping = 0.95f;
+    public float timeStep = 0.02f;
 
     private Mesh mesh;
-    private Vector3[] originalVertices; 
+    private Vector3[] originalVertices;
     private Vector3[] modifiedVertices;
-    private Vector3[] velocities; 
+    private Vector3[] velocities;
     private HashSet<int> cornerIndices;
 
     void Start()
@@ -29,7 +29,7 @@ public class Trampoline3 : MonoBehaviour
     {
         for (int i = 0; i < modifiedVertices.Length; i++)
         {
-            if (!cornerIndices.Contains(i))
+            if (!cornerIndices.Contains(i)) 
             {
                 Vector3 gravityForce = new Vector3(0, gravity, 0);
 
@@ -45,7 +45,7 @@ public class Trampoline3 : MonoBehaviour
         }
 
         mesh.vertices = modifiedVertices;
-        mesh.RecalculateNormals(); 
+        mesh.RecalculateNormals();
     }
 
     private int[] GetCornerIndices(Vector3[] vertices)
