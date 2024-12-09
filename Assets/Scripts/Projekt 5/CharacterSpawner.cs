@@ -9,7 +9,7 @@ public class CharacterSpawner : MonoBehaviour
     {
         for(int i = 5; i < Characters; i++)
         {
-            Vector3 Position = new Vector3(Random.Range(-16, 16), 8, Random.Range(-10, -20));
+            Vector3 Position = new Vector3(Random.Range(-1, -2), -5.46, Random.Range(1.20, 2));
             Instantiate(Prefab, Position, Prefab.transform.rotation);
         }
     }
